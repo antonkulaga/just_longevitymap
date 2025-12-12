@@ -41,7 +41,7 @@ class CravatPostAggregator (BasePostAggregator):
         return True
 
 
-    def get_nucleotides(self, ref:str, alt:str, zygocity:str) -> (str, set[str]):
+    def get_nucleotides(self, ref:str, alt:str, zygocity:str) -> tuple[str, set[str]]:
         if zygocity == 'hom':
             return alt+"/"+alt, {alt, alt}
         return alt+"/"+ref, {alt, ref}
@@ -91,8 +91,8 @@ class CravatPostAggregator (BasePostAggregator):
         if self.json_path.is_file():
             pass
         else:
-            with open(self.json_path, "w") as json:
-                json.write("[{}]")
+            with open(self.json_path, "w") as json_file:
+                json_file.write("[{}]")
 
 
         sql_create:str = """ CREATE TABLE IF NOT EXISTS longevitymap (
@@ -266,8 +266,9 @@ class CravatPostAggregator (BasePostAggregator):
                                             'temperature': 0}
             try:
                 answer = requests.post(url, json=json_api_openai)
-            except:
+            except Exception:
                 print(f"Can't make request to {url}")
+                return
 
             answer = answer.json()
             answer = answer["choices"][0]["message"]["content"]
@@ -349,5 +350,3 @@ class CravatPostAggregator (BasePostAggregator):
 
     def postprocess(self):
         self.ref_homo.end()
-
-

@@ -37,7 +37,7 @@ class RefHomoEdgecases:
         self._is_active:bool = active
 
 
-    def process_record(self, rsid, allele, w) -> None:
+    def process_record(self, rsid:str, allele:str, w:float) -> None:
         if not self._is_active:
             return
         query: str = 'SELECT variant.id, association, population.name, identifier, symbol, quickpubmed, study_design, conclusions, categories.name ' \
@@ -68,7 +68,7 @@ class RefHomoEdgecases:
 
 
 
-    def process_row(self, row:list):
+    def process_row(self, row:dict) -> None:
         if not self._is_active:
             return
         if len(self.ref_homo_map) == 0:
@@ -83,7 +83,7 @@ class RefHomoEdgecases:
             self.ref_homo_map[rsid][EXIST] = False
 
 
-    def end(self):
+    def end(self) -> None:
         if not self._is_active:
             return
         for rsid in self.ref_homo_map:

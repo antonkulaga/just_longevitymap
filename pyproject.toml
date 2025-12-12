@@ -1,0 +1,31 @@
+[project]
+name = "just-longevitymap"
+version = "0.2.0"
+description = "Longevity map postaggregator for longevity report in OakVar"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "oakvar",
+    "requests",
+]
+
+[project.optional-dependencies]
+dev = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+    "data",
+    "just_longevitymap.yml",
+    "logo.png",
+    "README.md",
+    "LICENSE",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = []
+py-modules = ["just_longevitymap", "longevitymap_ref_homo"]
+
